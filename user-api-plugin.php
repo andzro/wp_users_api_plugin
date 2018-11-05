@@ -44,6 +44,8 @@ class JcityMembership{
 
     public function register()
     {
+        add_filter( 'http_request_timeout', array($this, 'wp9838c_timeout_extend'));
+
         add_action('admin_menu', array($this, 'add_admin_pages'));
 
         add_filter('plugin_action_links_'.$this->plugin,array($this, 'settings_link'));
@@ -66,6 +68,13 @@ class JcityMembership{
     {
         require_once plugin_dir_path(__FILE__).'templates/admin.php';
     }
+
+    public function wp9838c_timeout_extend( $time )
+    {
+        // Default timeout is 5
+        return 10;
+    }
+
 }
 
 if(class_exists('JcityMembership')){
